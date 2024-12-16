@@ -1,4 +1,3 @@
-import "dart:ffi";
 import "dart:io" as io;
 
 const GroceriesPriceMenu = {
@@ -11,10 +10,13 @@ const GroceriesPriceMenu = {
 
 const TaxRate = .1;
 
+// program entry point
 main()
 {
+  // this variable will store the final result
   var totalPriceExcludingTax = 0.0;
 
+  //print the welcome message
   print(
 """
 enter groceries list according to the following format:
@@ -33,13 +35,16 @@ codes for available items:
 
   while (true)
   {
+    // get input line
     final String line = io.stdin.readLineSync() ?? "";
 
+    // check if customer asked to check out
     if (line == '0')
     {
       break;
     }
 
+    // disect input line
     final lineParts = line.split(' ');
     if (lineParts.length != 3)
     {
@@ -64,6 +69,7 @@ codes for available items:
       continue;
     }
 
+    // check whether item index is valid
     if (!GroceriesPriceMenu.keys.contains(itemIndex))
     {
       print("invalid item index");
@@ -75,11 +81,13 @@ codes for available items:
 
     print('you bought ${chosenItem} whose unit price is ${chosenItemPrice} with a quantity of ${quantity}');
 
+    // update total price
     totalPriceExcludingTax += quantity * chosenItemPrice;
 
     print('total price so far (excluding tax) = ${totalPriceExcludingTax}');
   }
 
+  // print final result
   print('you successfuly checked out');
   print('total price (excluding tax) = ${totalPriceExcludingTax}');
   print('total tax = ${totalPriceExcludingTax * TaxRate}');
